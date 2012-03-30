@@ -1,0 +1,21 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'eclipse'
+
+repositories { 
+	mavenCentral()
+	mavenLocal()
+}
+
+configurations {
+	all*.exclude group: "commons-logging", module: "commons-logging"
+}
+
+sourceCompatibility = 1.6
+targetCompatibility = sourceCompatibility
+
+dependencies {
+	compile 'com.zombietank:com.zombietank.email:1.0.1.SNAPSHOT'
+	compile 'org.apache.velocity:velocity:1.7'
+	testCompile 'junit:junit:4.10'
+}
