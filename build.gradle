@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'eclipse'
+apply from: 'https://raw.github.com/tomhermann/gradle-scripts/master/sources-javadoc.gradle'
 
 repositories { 
 	mavenCentral()
@@ -15,7 +16,9 @@ sourceCompatibility = 1.6
 targetCompatibility = sourceCompatibility
 
 dependencies {
-	compile 'com.zombietank:com.zombietank.email:1.0.1.SNAPSHOT'
+	compile 'com.zombietank:com.zombietank.email:1.0.5.SNAPSHOT'
+	compile "org.slf4j:slf4j-api:${slf4jVersion}"
 	compile 'org.apache.velocity:velocity:1.7'
+	
 	testCompile 'junit:junit:4.10'
 }
