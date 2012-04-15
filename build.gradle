@@ -18,7 +18,7 @@ sourceCompatibility = 1.6
 targetCompatibility = sourceCompatibility
 
 dependencies {
-	compile 'com.zombietank:com.zombietank.email:1.0.1.RELEASE'
+	compile 'com.zombietank:com.zombietank.email:1.0.2.RELEASE'
 	compile "org.slf4j:slf4j-api:${slf4jVersion}"
 	compile 'org.apache.velocity:velocity:1.7'
 	
