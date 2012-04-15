@@ -43,10 +43,10 @@ uploadArchives {
 			}
  
 			pom.project {
-			   name 'com.zombietank.email'
+			   name "${rootProject.name}"
 			   packaging 'jar'
-			   description 'A simple wrapper to make email operations a little easier.'
-			   url 'https://github.com/tomhermann/com.zombietank.email'
+			   description 'A velocity templated email service implementation.'
+			   url 'https://github.com/tomhermann/com.zombietank.email.velocity'
  
 			   scm {
 				   url 'scm:git@github.com:tomhermann/com.zombietank.email.git'
