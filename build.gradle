@@ -1,11 +1,11 @@
 apply plugin: 'java'
 apply plugin: 'maven'
-apply plugin: 'signing'
 apply plugin: 'eclipse'
 apply from: 'https://raw.github.com/tomhermann/gradle-scripts/master/sources-javadoc.gradle'
+apply from: 'https://raw.github.com/tomhermann/gradle-scripts/master/maven-deployer.gradle'
 
 repositories {
-	maven { url "http://iheartsoftware.com/nexus/content/groups/public/" }
+	maven { url 'http://iheartsoftware.com/nexus/content/groups/public' }
 }
 
 configurations {
@@ -16,7 +16,7 @@ sourceCompatibility = 1.6
 targetCompatibility = sourceCompatibility
 
 dependencies {
-	compile 'com.zombietank:com.zombietank.email:1.0.2.RELEASE'
+	compile 'com.zombietank:com.zombietank.email:1.0.3.RELEASE'
 	compile "org.slf4j:slf4j-api:${slf4jVersion}"
 	compile 'org.apache.velocity:velocity:1.7'
 	
@@ -25,65 +25,4 @@ dependencies {
 
 artifacts {
 	archives jar
-}
-
-signing {
-	sign configurations.archives
-}
-
-uploadArchives.enabled = hasProperty('sonatypeUsername') && hasProperty('sonatypePassword')
-
-uploadArchives {
-	repositories {
-		mavenDeployer {
-			beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
- 
-			repository(url: "http://iheartsoftware.com/nexus/content/repositories/releases/") {
-			  authentication(userName: sonatypeUsername, password: sonatypePassword)
-			}
- 
-			pom.project {
-			   name "${rootProject.name}"
-			   packaging 'jar'
-			   description 'A velocity templated email service implementation.'
-			   url 'https://github.com/tomhermann/com.zombietank.email.velocity'
- 
-			   scm {
-				   url 'scm:git@github.com:tomhermann/com.zombietank.email.git'
-				   connection 'scm:git@github.com:tomhermann/com.zombietank.email.git'
-				   developerConnection 'scm:git@github.com:tomhermann/com.zombietank.email.git'
-			   }
- 
-			   licenses {
-				   license {
-					   name 'The Apache Software License, Version 2.0'
-					   url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-					   distribution 'repo'
-				   }
-			   }
- 
-			   developers {
-				   developer {
-					   id 'tomhermann'
-					   name 'Tom Hermann'
-				   }
-			   }
-		   }
- 
-		   //mess with the generated pom to set the 'packaging' tag
-		   pom.withXml { XmlProvider xmlProvider ->
-			   def xml = xmlProvider.asString()
-			   def pomXml = new XmlParser().parse(new ByteArrayInputStream(xml.toString().bytes))
- 
-			   pomXml.version[0] + { packaging('jar') }
- 
-			   def newXml = new StringWriter()
-			   def printer = new XmlNodePrinter(new PrintWriter(newXml))
-			   printer.preserveWhitespace = true
-			   printer.print(pomXml)
-			   xml.setLength(0)
-			   xml.append(newXml.toString())
-		   }
-		}
-	}
 }
